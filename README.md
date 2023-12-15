@@ -2,9 +2,8 @@
 This Postman collection provides ways to configure FortiSASE portal via REST API, in automated fashion. 
 
 # Versioning 
-Curent version supports the following API possibilities, and therefore the postman collections: 
-- Raw collection file can be downloaded here at [FSS Raw Collection](https://raw.githubusercontent.com/fortinet-solutions-cse/fss_postman_collection/main/fss_spa.postman_collection.json) 
-- Supporting Environment file can be downloaded at  [Environment](https://github.com/fortinet-solutions-cse/fss_postman_collection/blob/main/fss_spa_environment.json)
+Our FortiSASE Postman Collection follow the REST API possibilities presently available on FortiSASE, and hosted at Fortinet [FNDN](https://fndn.fortinet.net/index.php?/fortiapi/2625-fortisase) page. 
+As the REST API coverage expands in FortiSASE, so will our Postman collection. 
 
 # Setup Steps: 
 - import [FSS Raw Collection](https://raw.githubusercontent.com/fortinet-solutions-cse/fss_postman_collection/main/fss.postman_collection.json) file into your Postman 
