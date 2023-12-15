@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "21162261-ab2c-4072-bf62-8f227525b338",
-		"name": "FortiSASE_SPA_Collation",
+		"_postman_id": "89f4204b-c14e-4c7e-a10c-8a3e2586daae",
+		"name": "FortiSASE_SPA_Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "16536300",
-		"_collection_link": "https://fss-cseemeacrew-909469.postman.co/workspace/Team-Workspace~461a582b-23f8-4aa4-81a7-1755be4115a8/collection/16536300-21162261-ab2c-4072-bf62-8f227525b338?action=share&source=collection_link&creator=16536300"
+		"_exporter_id": "16536300"
 	},
 	"item": [
 		{
@@ -580,16 +579,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "ADD YOUR TOKEN HERE!",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -907,16 +896,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "PUT YOUR TOKEN HERE!",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1392,16 +1371,6 @@
 					"response": []
 				}
 			],
-			"auth": {
-				"type": "bearer",
-				"bearer": [
-					{
-						"key": "token",
-						"value": "PUT YOUR TOKEN HERE!",
-						"type": "string"
-					}
-				]
-			},
 			"event": [
 				{
 					"listen": "prerequest",
