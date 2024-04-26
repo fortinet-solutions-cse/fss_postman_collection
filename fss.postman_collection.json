@@ -1,1402 +1,1691 @@
 {
 	"info": {
-		"_postman_id": "89f4204b-c14e-4c7e-a10c-8a3e2586daae",
-		"name": "FortiSASE_Collection",
+		"_postman_id": "abf3877e-1929-4001-a801-49dbe2d3423d",
+		"name": "fss",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "16536300"
 	},
 	"item": [
 		{
-			"name": "SPA_Config",
+			"name": "DNS",
 			"item": [
 				{
-					"name": "SPA Network Config",
-					"event": [
+					"name": "DNS_Config",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration\",",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request:\", err);",
-									"                    postman.setNextRequest(null); ",
-									"            }",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
+							"name": "Internal_DNS_rule",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryKey\": \"12\",\n    \"primaryDns\": \"1.1.1.1\",\n    \"secondaryDns\": \"2.2.2.2\",\n    \"domains\": [\n       \"test345.lab\", \"test123.lab\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/dns-rules",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"dns-rules"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DNS_Monitor",
+					"item": [
+						{
+							"name": "DNS Rules",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/schema/network/dns-rules",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"schema",
+										"network",
+										"dns-rules"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Objects&Services",
+			"item": [
+				{
+					"name": "Objects_Config",
+					"item": [
+						{
+							"name": "Host_BC1APP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryKey\": \"BC1-APP-IP\",\n    \"location\": \"private-access\",\n    \"type\": \"ipmask\",\n    \"subnet\": \"10.0.1.101/32\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/hosts",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"hosts"
+									]
+								}
+							},
+							"response": []
 						},
+						{
+							"name": "Host_DC1APP",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"primaryKey\": \"DC1-APP-IP\",\n    \"location\": \"private-access\",\n    \"type\": \"ipmask\",\n    \"subnet\": \"10.1.0.7/32\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/hosts",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"hosts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Objects_Monitor",
+					"item": [
+						{
+							"name": "Hosts",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/hosts",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"hosts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Objects_Delete",
+					"item": [
+						{
+							"name": "DC1APP",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/hosts/DC1-APP-IP",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"hosts",
+										"DC1-APP-IP"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "BC1APP",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v2/network/hosts/BC1-APP-IP",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v2",
+										"network",
+										"hosts",
+										"BC1-APP-IP"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "SPA",
+			"item": [
+				{
+					"name": "SPA_Config",
+					"item": [
+						{
+							"name": "SPA Network Config",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"waitOnTask(100);",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration\",",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]",
+											"            }",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err ){",
+											"                    console.error(\"There was an error in the request:\", err);",
+											"                    postman.setNextRequest(null); ",
+											"            }",
+											"            else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"success\") {",
+											"                    pm.test(\"Config succeeded! Moving to the next task.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"bgp_design\": \"{{bgp_design}}\",\n    \"bgp_router_ids_subnet\": \"{{bgp_router_ids_subnet}}\",\n    \"as_number\": \"{{as_number}}\",\n    \"recursive_next_hop\": true,\n    \"sdwan_rule_enable\": true,\n    \"sdwan_health_check_vm\": \"{{sdwan_health_check_vm}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"network-configuration"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Config - H1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"let scid = jsonData.data.id;",
+											"",
+											"pm.environment.set(\"h1_id\", scid);",
+											"",
+											"let regionCostKeys = Object.keys(jsonData.data.config.region_cost);",
+											"",
+											"let pop1 = regionCostKeys[0];",
+											"let pop2 = regionCostKeys.length > 1 ? regionCostKeys[1] : null;",
+											"let pop3 = regionCostKeys.length > 2 ? regionCostKeys[2] : null;",
+											"let pop4 = regionCostKeys.length > 3 ? regionCostKeys[3] : null;",
+											"",
+											"pm.environment.set(\"pop1_id\", pop1);",
+											"pm.environment.set(\"pop2_id\", pop2);",
+											"pm.environment.set(\"pop3_id\", pop3);",
+											"pm.environment.set(\"pop4_id\", pop4);",
+											"",
+											"if (scid) {",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]}",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err || jsonData.code !== 200){",
+											"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
+											"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
+											"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
+											"                });",
+											"                postman.setNextRequest(null);",
+											"            } ",
+											"            else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"success\") {",
+											"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}",
+											"",
+											"waitOnTask(100);",
+											"",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H1\",\n    \"ipsec_peer_name\": \"ISP-1\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h1_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h11_ip}}\",\n    \"overlay_network_id\": \"{{h11_overlay_id}}\",\n    \"route_map_tag\": \"{{h1_route_tag}}\",\n    \"backup_links\": [\n        {\n            \"auth\": \"{{spa_auth}}\",\n            \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n            \"ipsec_ike_version\": \"2\",\n            \"ipsec_peer_name\": \"ISP-2\",\n            \"ipsec_remote_gw\": \"{{h12_ip}}\",\n            \"overlay_network_id\": \"{{h12_overlay_id}}\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Config - H2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"let scid = jsonData.data.id;",
+											"",
+											"pm.environment.set(\"h2_id\", scid);",
+											"",
+											"",
+											"if (scid) {",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]}",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err || jsonData.code !== 200){",
+											"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
+											"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
+											"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
+											"                });",
+											"                postman.setNextRequest(null);",
+											"            } ",
+											"            else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"success\") {",
+											"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}",
+											"",
+											"waitOnTask(100);",
+											"",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H2\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h2_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h21_ip}}\",\n    \"overlay_network_id\": \"{{h21_overlay_id}}\",\n    \"route_map_tag\": \"{{h2_route_tag}}\",\n    \"backup_links\": [\n        {\n            \"auth\": \"{{spa_auth}}\",\n            \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n            \"ipsec_ike_version\": \"2\",\n            \"ipsec_peer_name\": \"ISP-2\",\n            \"ipsec_remote_gw\": \"{{h22_ip}}\",\n            \"overlay_network_id\": \"{{h22_overlay_id}}\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Config - H3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"let scid = jsonData.data.id;",
+											"",
+											"pm.environment.set(\"h3_id\", scid);",
+											"",
+											"if (scid) {",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]}",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err || jsonData.code !== 200){",
+											"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
+											"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
+											"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
+											"                });",
+											"                postman.setNextRequest(null);",
+											"            } ",
+											"            else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"success\") {",
+											"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}",
+											"",
+											"waitOnTask(100);",
+											"",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H3\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h3_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h31_ip}}\",\n    \"overlay_network_id\": \"{{h31_overlay_id}}\",\n    \"route_map_tag\": \"{{h3_route_tag}}\",\n    \"backup_links\": [\n        {\n            \"auth\": \"{{spa_auth}}\",\n            \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n            \"ipsec_ike_version\": \"2\",\n            \"ipsec_peer_name\": \"ISP-2\",\n            \"ipsec_remote_gw\": \"{{h32_ip}}\",\n            \"overlay_network_id\": \"{{h32_overlay_id}}\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Config - H4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let jsonData = pm.response.json();",
+											"let scid = jsonData.data.id;",
+											"",
+											"pm.environment.set(\"h4_id\", scid);",
+											"",
+											"if (scid) {",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]}",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err || jsonData.code !== 200){",
+											"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
+											"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
+											"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
+											"                });",
+											"                postman.setNextRequest(null);",
+											"            } ",
+											"            else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"success\") {",
+											"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}",
+											"",
+											"waitOnTask(100);",
+											"",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H4\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h4_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h41_ip}}\",\n    \"overlay_network_id\": \"{{h41_overlay_id}}\",\n    \"route_map_tag\": \"{{h4_route_tag}}\",\n    \"backup_links\": [\n        {\n            \"auth\": \"{{spa_auth}}\",\n            \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n            \"ipsec_ike_version\": \"2\",\n            \"ipsec_peer_name\": \"ISP-2\",\n            \"ipsec_remote_gw\": \"{{h42_ip}}\",\n            \"overlay_network_id\": \"{{h42_overlay_id}}\"\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA Cost per Hub",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"{{pop1_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop2_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop3_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop4_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  } \n}"
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/region_cost",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"region_cost"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzaWQiOiIzNzcwMWJiOS02MWQxLTQ2M2UtYTIyNy1kYjBhODE5Yjc3MTQiLCJ1c2VyIjp7ImlkIjoiNmMzMGJiODUtMTk2Yy00MGMxLTgwODUtNGJiNmJmOTRkNjdmIiwicHJpbmNpcGFsIjoiZGpva3NpbW92aWNAZm9ydGluZXQuY29tIiwiZW1haWwiOiJkam9rc2ltb3ZpY0Bmb3J0aW5ldC5jb20iLCJuYW1lIjoiRHJhZ29zbGF2IEpva3NpbW92aWMiLCJjb21wYW55Ijp7Im5hbWUiOiJGb3J0aW5ldCJ9LCJhdXRoX3R5cGUiOiJzc28iLCJwcm92aXNpb25fc3RhdHVzIjpudWxsLCJ0aGlyZF9wYXJ0eV9kYXRhIjp7InVzZXJfZnVsbGFjY2VzcyI6ZmFsc2UsInVzZXJfaWQiOi0xfSwiZW5hYmxlIjpmYWxzZSwicm9vdCI6dHJ1ZSwiZnQiOiIiLCJ0ZW5hbnRfaWQiOiJlcXE2MmN3OCIsIl9jcmVhdGVkIjoiMjAyMS0wNy0wN1QwODoxNDowNC4wNzEzNTQrMDA6MDAiLCJfdXBkYXRlZCI6IjIwMjMtMTItMTFUMDU6MTQ6MzcuNjQxODc1KzAwOjAwIiwidGVuYW50Ijp7ImlkIjoiZXFxNjJjdzgiLCJyb290X3ByaW5jaXBhbCI6ImRqb2tzaW1vdmljQGZvcnRpbmV0LmNvbSIsImFjY291bnRfaWQiOiIxMjQwNDg5IiwiZ3JvdXAiOltdLCJpc19yZW1vdmVkIjpmYWxzZSwiY29tcGFueSI6eyJuYW1lIjoiRm9ydGluZXQiLCJvdmVyd3JpdGUiOnRydWUsImxpY2Vuc2VfbW9kZSI6ImV4cHJlc3MiLCJwcm92aXNpb25fc3RhdHVzIjoicnVubmluZyIsImV4cHJlc3Nfc2l0ZV9pZCI6Im42cHRta2J4IiwiaXNfc21hbGxlc3Rfc2t1IjpmYWxzZSwiZm9zX2ltYWdlX3ZlcnNpb24iOiJzYXNlLWZndC12bTY0LXY3LTItNi1idWlsZDQ2NTUiLCJmYXpfaW1hZ2VfdmVyc2lvbiI6IiIsImVtc19pbWFnZV92ZXJzaW9uIjoiIiwidXNlX2VncmVzc196b25lIjpmYWxzZSwiZG5zX3Byb3ZpZGVyIjoiUm91dGU1MyIsInB1YmxpY19pcCI6ZmFsc2UsImVtc19sb2NhdGlvbiI6MiwiZW1zX2FsaWFzIjoiRnJhbmtmdXJ0IC0gR2VybWFueSIsImlzX3N0YW5kYXJkIjpmYWxzZSwicm9sbGJhY2siOnRydWUsInNvdXJjZV9pcF9hbmNob3JpbmciOmZhbHNlLCJsaWNlbnNlX21vZGVfbW9kaWZpYWJsZSI6ZmFsc2UsInN5bmNfc2l0ZV9zZWF0cyI6dHJ1ZSwic3luY19zaXRlX21vZGVscyI6dHJ1ZSwic2FzZV92ZXJzaW9uIjoiMjMuNC4yIiwibGljZW5zZSI6eyJleHBpcmUiOiIyMDI0LTA5LTIxVDAwOjAwOjAwIiwic3RhcnRfZGF0ZSI6IjIwMjMtMTItMTFUMDU6MTQ6NDAuMjQwNTg4IiwibGljZW5zZV90eXBlIjoic3RhbmRhcmRfbGljZW5zZSIsImFjY291bnRfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5Ijp0cnVlfSwic3RhbmRhbG9uZV9lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNlY3VyaXR5X2VudGl0bGVtZW50Ijp7InNpdGUiOnsiZW1zX2VuZm9yY2UiOnRydWUsIm5nZndfbW9kZSI6InByb2ZpbGUiLCJzZWF0Ijo0LCJyZW1vdGVfdXNlcnMiOjEwMCwiZW5kX3BvaW50cyI6MCwidG90YWxfYmFuZHdpZHRoIjowLCJtb2RlbHMiOlsic21hbGwiLCJtZWRpdW0iLCJsYXJnZSJdLCJpcHNlY19lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNzbF92cG5fZW50aXRsZW1lbnQiOnsidmlzaWJpbGl0eSI6dHJ1ZSwiYXZhaWxhYmlsaXR5Ijp0cnVlfSwidHVyYm9fc2l0ZSI6eyJkbnNfdHlwZSI6IkdFTyIsImF2YWlsYWJpbGl0eSI6dHJ1ZSwidmlzaWJpbGl0eSI6dHJ1ZSwic2VhdCI6MX0sInNhc2VfZWRnZSI6IkZvcnRpbmV0IEdsb2JhbCBFZGdlIiwibG9jYXRpb25zIjpbeyJsZWFkZXIiOnRydWUsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjYifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOnRydWUsInJlZ2lvbl9uYW1lIjoicmVnaW9uNSJ9LHsibGVhZGVyIjpmYWxzZSwibG9nX2VuYWJsZSI6ZmFsc2UsInJlZ2lvbl9uYW1lIjoicmVnaW9uMTcifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjEzIn1dfSwicmVtb3RlX3VzZXIiOnsic2VhdCI6MCwidmlzaWJpbGl0eSI6ZmFsc2UsImF2YWlsYWJpbGl0eSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19LCJhbmFseXRpY3NfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5IjpmYWxzZSwibW9kZWxzIjpbInNtYWxsIiwibWVkaXVtIiwibGFyZ2UiXSwicmVnaW9uX3Jlc3RyaWN0aW9uIjp0cnVlfSwiYXV0b21hdGlvbl9lbnRpdGxlbWVudCI6eyJmb3J0aWZvcm1hdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19fSwib3JpZ2luYWxfbGljZW5zZSI6W3sic2VyaWFsTnVtYmVyIjoiRkNURU1TODgyMzAwNTU4OSIsInN0YXJ0RGF0ZSI6IjIwMjMtMDctMTdUMDA6MDA6MDAiLCJlbmREYXRlIjoiMjAyNC0wOS0yMVQwMDowMDowMCIsIm51bWJlck9mU2l0ZXMiOjQsIm51bWJlck9mRW5kUG9pbnRzIjowLCJudW1iZXJPZlJlbW90ZVVzZXJzIjoxMDAsInRvdGFsQmFuZHdpZHRoIjowLCJudW1iZXJPZlRoaW5FZGdlRGV2aWNlcyI6W3siY291bnQiOjIsInNuTWFzayI6IkZYMjAwRiJ9XSwicHJvZ3JhbV9zbiI6IkZDVEVNUzg4MjMwMDU1ODkifV19LCJwb3J0YWxfdXJsIjpudWxsLCJsb2dfdXJsIjpudWxsLCJsb2dfbG9jYXRpb24iOm51bGwsImxvY2F0aW9uIjpudWxsLCJfY3JlYXRlZCI6IjIwMjEtMDctMDdUMDg6MTQ6MDQuMDcxMzU0KzAwOjAwIiwiX3VwZGF0ZWQiOiIyMDIzLTEyLTExVDA1OjE0OjM2LjA2ODQ0OCswMDowMCIsImZlZWRiYWNrX2RheXMiOi0xLCJpc19uZXciOmZhbHNlLCJhdmFpbGFibGVfcG9wcyI6bnVsbCwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyJ9LCJyb2xlIjpbIlN1cGVyIEFkbWluIl0sInNpdGVzIjpbXSwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyIsInNlZW5fbmV3X3JlbF9wciI6dHJ1ZSwib3JnX2RhdGEiOnsicGVybWlzc2lvbl9zY29wZSI6IkFjY291bnQiLCJhZ2dyZWdhdGVfYWNjZXNzIjpmYWxzZSwib3JnX2lkIjpudWxsLCJvdV9pZCI6bnVsbH0sIm1ldGFkYXRhIjp7ImltcGVyc29uYXRpb24iOnsiYWRtaW5fZW1haWwiOiJzdWJyYW1hbmlhbnZAZm9ydGluZXQuY29tIn0sImlwIjoiMTguMTY3LjE5MC4yNDAifSwiZW52IjoicHJvZCIsInRva2VuX3R5cGUiOiJwb3J0YWwifSwic2NvcGUiOlsibW9uaXRvci1hcGk6L21vbml0b3ItYXBpLz8oLiopLz8iXSwidHlwZSI6ImFwaSIsImV4cGlyZXMiOm51bGwsImlhdCI6MTcwMjI3MTg0NSwiZXhwIjoxNzI2ODQ4MDAwfQ.Kz_QagPaq2LuURfDJa80_xQdywo4P_rBfSKrgW0Fmjg",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
+								"type": "text/javascript",
 								"exec": [
 									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"bgp_design\": \"{{bgp_design}}\",\n    \"bgp_router_ids_subnet\": \"{{bgp_router_ids_subnet}}\",\n    \"as_number\": \"{{as_number}}\",\n    \"recursive_next_hop\": true,\n    \"sdwan_rule_enable\": true,\n    \"sdwan_health_check_vm\": \"{{sdwan_health_check_vm}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+								]
 							}
 						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"network-configuration"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Config - H1",
-					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"type": "text/javascript",
 								"exec": [
-									"let jsonData = pm.response.json();",
-									"let scid = jsonData.data.id;",
-									"",
-									"pm.environment.set(\"h1_id\", scid);",
-									"",
-									"let regionCostKeys = Object.keys(jsonData.data.config.region_cost);",
-									"",
-									"let pop1 = regionCostKeys[0];",
-									"let pop2 = regionCostKeys.length > 1 ? regionCostKeys[1] : null;",
-									"let pop3 = regionCostKeys.length > 2 ? regionCostKeys[2] : null;",
-									"let pop4 = regionCostKeys.length > 3 ? regionCostKeys[3] : null;",
-									"",
-									"pm.environment.set(\"pop1_id\", pop1);",
-									"pm.environment.set(\"pop2_id\", pop2);",
-									"pm.environment.set(\"pop3_id\", pop3);",
-									"pm.environment.set(\"pop4_id\", pop4);",
-									"",
-									"if (scid) {",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]}",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err || jsonData.code !== 200){",
-									"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
-									"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
-									"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
-									"                });",
-									"                postman.setNextRequest(null);",
-									"            } ",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}",
-									"",
-									"waitOnTask(100);",
-									"",
-									"}"
-								],
-								"type": "text/javascript"
+									""
+								]
 							}
+						}
+					]
+				},
+				{
+					"name": "SPA_Monitor",
+					"item": [
+						{
+							"name": "SPA Network Status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"network-configuration"
+									]
+								}
+							},
+							"response": []
 						},
+						{
+							"name": "SPA SCs Status",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Status - H1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h1_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h1_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Status - H2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h2_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h2_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Status - H3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h3_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h3_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Status - H4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {},
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h4_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h4_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzaWQiOiIzNzcwMWJiOS02MWQxLTQ2M2UtYTIyNy1kYjBhODE5Yjc3MTQiLCJ1c2VyIjp7ImlkIjoiNmMzMGJiODUtMTk2Yy00MGMxLTgwODUtNGJiNmJmOTRkNjdmIiwicHJpbmNpcGFsIjoiZGpva3NpbW92aWNAZm9ydGluZXQuY29tIiwiZW1haWwiOiJkam9rc2ltb3ZpY0Bmb3J0aW5ldC5jb20iLCJuYW1lIjoiRHJhZ29zbGF2IEpva3NpbW92aWMiLCJjb21wYW55Ijp7Im5hbWUiOiJGb3J0aW5ldCJ9LCJhdXRoX3R5cGUiOiJzc28iLCJwcm92aXNpb25fc3RhdHVzIjpudWxsLCJ0aGlyZF9wYXJ0eV9kYXRhIjp7InVzZXJfZnVsbGFjY2VzcyI6ZmFsc2UsInVzZXJfaWQiOi0xfSwiZW5hYmxlIjpmYWxzZSwicm9vdCI6dHJ1ZSwiZnQiOiIiLCJ0ZW5hbnRfaWQiOiJlcXE2MmN3OCIsIl9jcmVhdGVkIjoiMjAyMS0wNy0wN1QwODoxNDowNC4wNzEzNTQrMDA6MDAiLCJfdXBkYXRlZCI6IjIwMjMtMTItMTFUMDU6MTQ6MzcuNjQxODc1KzAwOjAwIiwidGVuYW50Ijp7ImlkIjoiZXFxNjJjdzgiLCJyb290X3ByaW5jaXBhbCI6ImRqb2tzaW1vdmljQGZvcnRpbmV0LmNvbSIsImFjY291bnRfaWQiOiIxMjQwNDg5IiwiZ3JvdXAiOltdLCJpc19yZW1vdmVkIjpmYWxzZSwiY29tcGFueSI6eyJuYW1lIjoiRm9ydGluZXQiLCJvdmVyd3JpdGUiOnRydWUsImxpY2Vuc2VfbW9kZSI6ImV4cHJlc3MiLCJwcm92aXNpb25fc3RhdHVzIjoicnVubmluZyIsImV4cHJlc3Nfc2l0ZV9pZCI6Im42cHRta2J4IiwiaXNfc21hbGxlc3Rfc2t1IjpmYWxzZSwiZm9zX2ltYWdlX3ZlcnNpb24iOiJzYXNlLWZndC12bTY0LXY3LTItNi1idWlsZDQ2NTUiLCJmYXpfaW1hZ2VfdmVyc2lvbiI6IiIsImVtc19pbWFnZV92ZXJzaW9uIjoiIiwidXNlX2VncmVzc196b25lIjpmYWxzZSwiZG5zX3Byb3ZpZGVyIjoiUm91dGU1MyIsInB1YmxpY19pcCI6ZmFsc2UsImVtc19sb2NhdGlvbiI6MiwiZW1zX2FsaWFzIjoiRnJhbmtmdXJ0IC0gR2VybWFueSIsImlzX3N0YW5kYXJkIjpmYWxzZSwicm9sbGJhY2siOnRydWUsInNvdXJjZV9pcF9hbmNob3JpbmciOmZhbHNlLCJsaWNlbnNlX21vZGVfbW9kaWZpYWJsZSI6ZmFsc2UsInN5bmNfc2l0ZV9zZWF0cyI6dHJ1ZSwic3luY19zaXRlX21vZGVscyI6dHJ1ZSwic2FzZV92ZXJzaW9uIjoiMjMuNC4yIiwibGljZW5zZSI6eyJleHBpcmUiOiIyMDI0LTA5LTIxVDAwOjAwOjAwIiwic3RhcnRfZGF0ZSI6IjIwMjMtMTItMTFUMDU6MTQ6NDAuMjQwNTg4IiwibGljZW5zZV90eXBlIjoic3RhbmRhcmRfbGljZW5zZSIsImFjY291bnRfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5Ijp0cnVlfSwic3RhbmRhbG9uZV9lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNlY3VyaXR5X2VudGl0bGVtZW50Ijp7InNpdGUiOnsiZW1zX2VuZm9yY2UiOnRydWUsIm5nZndfbW9kZSI6InByb2ZpbGUiLCJzZWF0Ijo0LCJyZW1vdGVfdXNlcnMiOjEwMCwiZW5kX3BvaW50cyI6MCwidG90YWxfYmFuZHdpZHRoIjowLCJtb2RlbHMiOlsic21hbGwiLCJtZWRpdW0iLCJsYXJnZSJdLCJpcHNlY19lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNzbF92cG5fZW50aXRsZW1lbnQiOnsidmlzaWJpbGl0eSI6dHJ1ZSwiYXZhaWxhYmlsaXR5Ijp0cnVlfSwidHVyYm9fc2l0ZSI6eyJkbnNfdHlwZSI6IkdFTyIsImF2YWlsYWJpbGl0eSI6dHJ1ZSwidmlzaWJpbGl0eSI6dHJ1ZSwic2VhdCI6MX0sInNhc2VfZWRnZSI6IkZvcnRpbmV0IEdsb2JhbCBFZGdlIiwibG9jYXRpb25zIjpbeyJsZWFkZXIiOnRydWUsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjYifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOnRydWUsInJlZ2lvbl9uYW1lIjoicmVnaW9uNSJ9LHsibGVhZGVyIjpmYWxzZSwibG9nX2VuYWJsZSI6ZmFsc2UsInJlZ2lvbl9uYW1lIjoicmVnaW9uMTcifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjEzIn1dfSwicmVtb3RlX3VzZXIiOnsic2VhdCI6MCwidmlzaWJpbGl0eSI6ZmFsc2UsImF2YWlsYWJpbGl0eSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19LCJhbmFseXRpY3NfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5IjpmYWxzZSwibW9kZWxzIjpbInNtYWxsIiwibWVkaXVtIiwibGFyZ2UiXSwicmVnaW9uX3Jlc3RyaWN0aW9uIjp0cnVlfSwiYXV0b21hdGlvbl9lbnRpdGxlbWVudCI6eyJmb3J0aWZvcm1hdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19fSwib3JpZ2luYWxfbGljZW5zZSI6W3sic2VyaWFsTnVtYmVyIjoiRkNURU1TODgyMzAwNTU4OSIsInN0YXJ0RGF0ZSI6IjIwMjMtMDctMTdUMDA6MDA6MDAiLCJlbmREYXRlIjoiMjAyNC0wOS0yMVQwMDowMDowMCIsIm51bWJlck9mU2l0ZXMiOjQsIm51bWJlck9mRW5kUG9pbnRzIjowLCJudW1iZXJPZlJlbW90ZVVzZXJzIjoxMDAsInRvdGFsQmFuZHdpZHRoIjowLCJudW1iZXJPZlRoaW5FZGdlRGV2aWNlcyI6W3siY291bnQiOjIsInNuTWFzayI6IkZYMjAwRiJ9XSwicHJvZ3JhbV9zbiI6IkZDVEVNUzg4MjMwMDU1ODkifV19LCJwb3J0YWxfdXJsIjpudWxsLCJsb2dfdXJsIjpudWxsLCJsb2dfbG9jYXRpb24iOm51bGwsImxvY2F0aW9uIjpudWxsLCJfY3JlYXRlZCI6IjIwMjEtMDctMDdUMDg6MTQ6MDQuMDcxMzU0KzAwOjAwIiwiX3VwZGF0ZWQiOiIyMDIzLTEyLTExVDA1OjE0OjM2LjA2ODQ0OCswMDowMCIsImZlZWRiYWNrX2RheXMiOi0xLCJpc19uZXciOmZhbHNlLCJhdmFpbGFibGVfcG9wcyI6bnVsbCwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyJ9LCJyb2xlIjpbIlN1cGVyIEFkbWluIl0sInNpdGVzIjpbXSwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyIsInNlZW5fbmV3X3JlbF9wciI6dHJ1ZSwib3JnX2RhdGEiOnsicGVybWlzc2lvbl9zY29wZSI6IkFjY291bnQiLCJhZ2dyZWdhdGVfYWNjZXNzIjpmYWxzZSwib3JnX2lkIjpudWxsLCJvdV9pZCI6bnVsbH0sIm1ldGFkYXRhIjp7ImltcGVyc29uYXRpb24iOnsiYWRtaW5fZW1haWwiOiJzdWJyYW1hbmlhbnZAZm9ydGluZXQuY29tIn0sImlwIjoiMTguMTY3LjE5MC4yNDAifSwiZW52IjoicHJvZCIsInRva2VuX3R5cGUiOiJwb3J0YWwifSwic2NvcGUiOlsibW9uaXRvci1hcGk6L21vbml0b3ItYXBpLz8oLiopLz8iXSwidHlwZSI6ImFwaSIsImV4cGlyZXMiOm51bGwsImlhdCI6MTcwMjI3MTg0NSwiZXhwIjoxNzI2ODQ4MDAwfQ.Kz_QagPaq2LuURfDJa80_xQdywo4P_rBfSKrgW0Fmjg",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
 						{
 							"listen": "prerequest",
 							"script": {
+								"type": "text/javascript",
 								"exec": [
 									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H1\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h1_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h1_ip}}\",\n    \"overlay_network_id\": \"{{h1_overlay_id}}\",\n    \"route_map_tag\": \"{{h1_route_tag}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+								]
 							}
 						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Config - H2",
-					"event": [
 						{
 							"listen": "test",
 							"script": {
+								"type": "text/javascript",
 								"exec": [
-									"let jsonData = pm.response.json();",
-									"let scid = jsonData.data.id;",
-									"",
-									"pm.environment.set(\"h2_id\", scid);",
-									"",
-									"",
-									"if (scid) {",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]}",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err || jsonData.code !== 200){",
-									"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
-									"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
-									"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
-									"                });",
-									"                postman.setNextRequest(null);",
-									"            } ",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}",
-									"",
-									"waitOnTask(100);",
-									"",
-									"}"
-								],
-								"type": "text/javascript"
+									""
+								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H2\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h2_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h2_ip}}\",\n    \"overlay_network_id\": \"{{h2_overlay_id}}\",\n    \"route_map_tag\": \"{{h2_route_tag}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections"
-							]
-						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "SPA SC Config - H3",
-					"event": [
+					"name": "SPA_Delete",
+					"item": [
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let jsonData = pm.response.json();",
-									"let scid = jsonData.data.id;",
-									"",
-									"pm.environment.set(\"h3_id\", scid);",
-									"",
-									"if (scid) {",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]}",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err || jsonData.code !== 200){",
-									"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
-									"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
-									"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
-									"                });",
-									"                postman.setNextRequest(null);",
-									"            } ",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}",
-									"",
-									"waitOnTask(100);",
-									"",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H3\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h3_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h3_ip}}\",\n    \"overlay_network_id\": \"{{h3_overlay_id}}\",\n    \"route_map_tag\": \"{{h3_route_tag}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"name": "SPA SC Delete - H1",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// let scid = pm.environment.get(\"h1_id\");",
+											"",
+											"// waitOnTask(100);",
+											"",
+											"// function waitOnTask(retries) {",
+											"//     if (!retries) {",
+											"//         pm.test(\"Task completed\", function() {",
+											"//             pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"//         });",
+											"//         postman.setNextRequest(null);",
+											"//     }",
+											"//     else {",
+											"//         pm.sendRequest({",
+											"//             url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"//             method: 'GET',",
+											"//             header: \"Content-Type:application/json\",",
+											"//             auth: {",
+											"//             \ttype: \"bearer\",",
+											"//             \tbearer: [",
+											"//             \t{",
+											"//             \t\tkey: \"token\",",
+											"//             \t\tvalue: pm.environment.get(\"token\"),",
+											"//             \t\ttype: \"string\"",
+											"//             \t}]",
+											"//             }",
+											"//         }, function(err, response) {",
+											"//             var jsonData = response.json();",
+											"//             if (err ){",
+											"//                     console.error(\"There was an error in the request. Breakin git!\", err);",
+											"//                     postman.setNextRequest(null); ",
+											"//             } else if (jsonData.code == \"403\") {",
+											"//                 pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"//                     pm.expect(jsonData.code).to.equal(\"403\");",
+											"//                 });",
+											"//             } else if (jsonData.data.config_state == \"failed\"){",
+											"//                     pm.test(\"Config failed\",function() {",
+											"//                         pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"//                     });",
+											"//                     postman.setNextRequest(null);",
+											"//                 } else if (jsonData.data.config_state == \"deleted\") {",
+											"//                     pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"//                         pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
+											"//                     });",
+											"//                 } else {",
+											"//                 console.log(\"Task not yet completed. Checking again.\");",
+											"//                 setTimeout(function() {",
+											"//                     waitOnTask(--retries);",
+											"//                 }, 10000);",
+											"//             }",
+											"//         });",
+											"//     }",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
 								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
 							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Config - H4",
-					"event": [
+							"protocolProfileBehavior": {
+								"disabledSystemHeaders": {}
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h1_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h1_id}}"
+									]
+								}
+							},
+							"response": []
+						},
 						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let jsonData = pm.response.json();",
-									"let scid = jsonData.data.id;",
-									"",
-									"pm.environment.set(\"h4_id\", scid);",
-									"",
-									"if (scid) {",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url:\"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]}",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err || jsonData.code !== 200){",
-									"                pm.test(\"Error in request or status code not 200 in response body\", function() {",
-									"                    pm.expect(err, \"There was an error in the request\").to.be.null;",
-									"                    pm.expect(jsonData.code, \"Response body code is not 200\").to.equal(200);",
-									"                });",
-									"                postman.setNextRequest(null);",
-									"            } ",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next tesk.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}",
-									"",
-									"waitOnTask(100);",
-									"",
-									"}"
-								],
-								"type": "text/javascript"
-							}
+							"name": "SPA SC Delete - H2",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let scid = pm.environment.get(\"h2_id\");",
+											"",
+											"waitOnTask(100);",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]",
+											"            }",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err ){",
+											"                    console.error(\"There was an error in the request. Breakin git!\", err);",
+											"                    postman.setNextRequest(null); ",
+											"            } else if (jsonData.code == \"403\") {",
+											"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                    pm.expect(jsonData.code).to.equal(\"403\");",
+											"                });",
+											"            } else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"deleted\") {",
+											"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h2_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h2_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Delete - H3",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let scid = pm.environment.get(\"h3_id\");",
+											"",
+											"waitOnTask(100);",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]",
+											"            }",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err ){",
+											"                    console.error(\"There was an error in the request. Breakin git!\", err);",
+											"                    postman.setNextRequest(null); ",
+											"            } else if (jsonData.code == \"403\") {",
+											"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                    pm.expect(jsonData.code).to.equal(\"403\");",
+											"                });",
+											"            } else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"deleted\") {",
+											"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h3_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h3_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA SC Delete - H4",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let scid = pm.environment.get(\"h4_id\");",
+											"",
+											"waitOnTask(100);",
+											"",
+											"function waitOnTask(retries) {",
+											"    if (!retries) {",
+											"        pm.test(\"Task completed\", function() {",
+											"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"        });",
+											"        postman.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.sendRequest({",
+											"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
+											"            method: 'GET',",
+											"            header: \"Content-Type:application/json\",",
+											"            auth: {",
+											"            \ttype: \"bearer\",",
+											"            \tbearer: [",
+											"            \t{",
+											"            \t\tkey: \"token\",",
+											"            \t\tvalue: pm.environment.get(\"token\"),",
+											"            \t\ttype: \"string\"",
+											"            \t}]",
+											"            }",
+											"        }, function(err, response) {",
+											"            var jsonData = response.json();",
+											"            if (err ){",
+											"                    console.error(\"There was an error in the request. Breakin git!\", err);",
+											"                    postman.setNextRequest(null); ",
+											"            } else if (jsonData.code == \"403\") {",
+											"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                    pm.expect(jsonData.code).to.equal(\"403\");",
+											"                });",
+											"            } else if (jsonData.data.config_state == \"failed\"){",
+											"                    pm.test(\"Config failed\",function() {",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"                    });",
+											"                    postman.setNextRequest(null);",
+											"                } else if (jsonData.data.config_state == \"deleted\") {",
+											"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
+											"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
+											"                    });",
+											"                } else {",
+											"                console.log(\"Task not yet completed. Checking again.\");",
+											"                setTimeout(function() {",
+											"                    waitOnTask(--retries);",
+											"                }, 10000);",
+											"            }",
+											"        });",
+											"    }",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h4_id}}",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"service-connections",
+										"{{h4_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SPA Network Delete",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// waitOnTask(100);",
+											"",
+											"// function waitOnTask(retries) {",
+											"//     if (!retries) {",
+											"//         pm.test(\"Task completed\", function() {",
+											"//             pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
+											"//         });",
+											"//         postman.setNextRequest(null);",
+											"//     }",
+											"//     else {",
+											"//         pm.sendRequest({",
+											"//             url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration\",",
+											"//             method: 'GET',",
+											"//             header: \"Content-Type:application/json\",",
+											"//             auth: {",
+											"//             \ttype: \"bearer\",",
+											"//             \tbearer: [",
+											"//             \t{",
+											"//             \t\tkey: \"token\",",
+											"//             \t\tvalue: pm.environment.get(\"token\"),",
+											"//             \t\ttype: \"string\"",
+											"//             \t}]",
+											"//             }",
+											"//         }, function(err, response) {",
+											"//             var jsonData = response.json();",
+											"//             if (err ){",
+											"//                     console.error(\"There was an error in the request:\", err);",
+											"//                     console.log(\"Moving to the next task.\");",
+											"//                     postman.setNextRequest(null); ",
+											"//             }",
+											"//             else if (jsonData.data.config_state == \"failed\"){",
+											"//                     pm.test(\"Config failed\",function() {",
+											"//                         pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
+											"//                     });",
+											"//                     postman.setNextRequest(null);",
+											"//                 } else if (jsonData.data.config_state == \"success\") {",
+											"//                     pm.test(\"Config succeeded! Moving to the next task.\", function(){",
+											"//                         pm.expect(jsonData.data.config_state).to.equal(\"success\");",
+											"//                     });",
+											"//                 } else {",
+											"//                 console.log(\"Task not yet completed. Checking again.\");",
+											"//                 setTimeout(function() {",
+											"//                     waitOnTask(--retries);",
+											"//                 }, 10000);",
+											"//             }",
+											"//         });",
+											"//     }",
+											"// }"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
+									"protocol": "https",
+									"host": [
+										"portal",
+										"prod",
+										"fortisase",
+										"com"
+									],
+									"path": [
+										"resource-api",
+										"v1",
+										"private-access",
+										"network-configuration"
+									]
+								}
+							},
+							"response": []
 						}
 					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {}
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"type\": \"{{bgp_design}}\",\n    \"alias\": \"H4\",\n    \"auth\": \"{{spa_auth}}\",\n    \"bgp_peer_ip\": \"{{h4_bgp_peer_ip}}\",\n    \"ipsec_pre_shared_key\": \"{{ipsec_psk}}\",\n    \"ipsec_ike_version\": \"2\",\n    \"ipsec_remote_gw\": \"{{h4_ip}}\",\n    \"overlay_network_id\": \"{{h4_overlay_id}}\",\n    \"route_map_tag\": \"{{h4_route_tag}}\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzaWQiOiIzNzcwMWJiOS02MWQxLTQ2M2UtYTIyNy1kYjBhODE5Yjc3MTQiLCJ1c2VyIjp7ImlkIjoiNmMzMGJiODUtMTk2Yy00MGMxLTgwODUtNGJiNmJmOTRkNjdmIiwicHJpbmNpcGFsIjoiZGpva3NpbW92aWNAZm9ydGluZXQuY29tIiwiZW1haWwiOiJkam9rc2ltb3ZpY0Bmb3J0aW5ldC5jb20iLCJuYW1lIjoiRHJhZ29zbGF2IEpva3NpbW92aWMiLCJjb21wYW55Ijp7Im5hbWUiOiJGb3J0aW5ldCJ9LCJhdXRoX3R5cGUiOiJzc28iLCJwcm92aXNpb25fc3RhdHVzIjpudWxsLCJ0aGlyZF9wYXJ0eV9kYXRhIjp7InVzZXJfZnVsbGFjY2VzcyI6ZmFsc2UsInVzZXJfaWQiOi0xfSwiZW5hYmxlIjpmYWxzZSwicm9vdCI6dHJ1ZSwiZnQiOiIiLCJ0ZW5hbnRfaWQiOiJlcXE2MmN3OCIsIl9jcmVhdGVkIjoiMjAyMS0wNy0wN1QwODoxNDowNC4wNzEzNTQrMDA6MDAiLCJfdXBkYXRlZCI6IjIwMjMtMTItMTFUMDU6MTQ6MzcuNjQxODc1KzAwOjAwIiwidGVuYW50Ijp7ImlkIjoiZXFxNjJjdzgiLCJyb290X3ByaW5jaXBhbCI6ImRqb2tzaW1vdmljQGZvcnRpbmV0LmNvbSIsImFjY291bnRfaWQiOiIxMjQwNDg5IiwiZ3JvdXAiOltdLCJpc19yZW1vdmVkIjpmYWxzZSwiY29tcGFueSI6eyJuYW1lIjoiRm9ydGluZXQiLCJvdmVyd3JpdGUiOnRydWUsImxpY2Vuc2VfbW9kZSI6ImV4cHJlc3MiLCJwcm92aXNpb25fc3RhdHVzIjoicnVubmluZyIsImV4cHJlc3Nfc2l0ZV9pZCI6Im42cHRta2J4IiwiaXNfc21hbGxlc3Rfc2t1IjpmYWxzZSwiZm9zX2ltYWdlX3ZlcnNpb24iOiJzYXNlLWZndC12bTY0LXY3LTItNi1idWlsZDQ2NTUiLCJmYXpfaW1hZ2VfdmVyc2lvbiI6IiIsImVtc19pbWFnZV92ZXJzaW9uIjoiIiwidXNlX2VncmVzc196b25lIjpmYWxzZSwiZG5zX3Byb3ZpZGVyIjoiUm91dGU1MyIsInB1YmxpY19pcCI6ZmFsc2UsImVtc19sb2NhdGlvbiI6MiwiZW1zX2FsaWFzIjoiRnJhbmtmdXJ0IC0gR2VybWFueSIsImlzX3N0YW5kYXJkIjpmYWxzZSwicm9sbGJhY2siOnRydWUsInNvdXJjZV9pcF9hbmNob3JpbmciOmZhbHNlLCJsaWNlbnNlX21vZGVfbW9kaWZpYWJsZSI6ZmFsc2UsInN5bmNfc2l0ZV9zZWF0cyI6dHJ1ZSwic3luY19zaXRlX21vZGVscyI6dHJ1ZSwic2FzZV92ZXJzaW9uIjoiMjMuNC4yIiwibGljZW5zZSI6eyJleHBpcmUiOiIyMDI0LTA5LTIxVDAwOjAwOjAwIiwic3RhcnRfZGF0ZSI6IjIwMjMtMTItMTFUMDU6MTQ6NDAuMjQwNTg4IiwibGljZW5zZV90eXBlIjoic3RhbmRhcmRfbGljZW5zZSIsImFjY291bnRfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5Ijp0cnVlfSwic3RhbmRhbG9uZV9lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNlY3VyaXR5X2VudGl0bGVtZW50Ijp7InNpdGUiOnsiZW1zX2VuZm9yY2UiOnRydWUsIm5nZndfbW9kZSI6InByb2ZpbGUiLCJzZWF0Ijo0LCJyZW1vdGVfdXNlcnMiOjEwMCwiZW5kX3BvaW50cyI6MCwidG90YWxfYmFuZHdpZHRoIjowLCJtb2RlbHMiOlsic21hbGwiLCJtZWRpdW0iLCJsYXJnZSJdLCJpcHNlY19lbnRpdGxlbWVudCI6eyJ2aXNpYmlsaXR5IjpmYWxzZSwiYXZhaWxhYmlsaXR5IjpmYWxzZX0sInNzbF92cG5fZW50aXRsZW1lbnQiOnsidmlzaWJpbGl0eSI6dHJ1ZSwiYXZhaWxhYmlsaXR5Ijp0cnVlfSwidHVyYm9fc2l0ZSI6eyJkbnNfdHlwZSI6IkdFTyIsImF2YWlsYWJpbGl0eSI6dHJ1ZSwidmlzaWJpbGl0eSI6dHJ1ZSwic2VhdCI6MX0sInNhc2VfZWRnZSI6IkZvcnRpbmV0IEdsb2JhbCBFZGdlIiwibG9jYXRpb25zIjpbeyJsZWFkZXIiOnRydWUsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjYifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOnRydWUsInJlZ2lvbl9uYW1lIjoicmVnaW9uNSJ9LHsibGVhZGVyIjpmYWxzZSwibG9nX2VuYWJsZSI6ZmFsc2UsInJlZ2lvbl9uYW1lIjoicmVnaW9uMTcifSx7ImxlYWRlciI6ZmFsc2UsImxvZ19lbmFibGUiOmZhbHNlLCJyZWdpb25fbmFtZSI6InJlZ2lvbjEzIn1dfSwicmVtb3RlX3VzZXIiOnsic2VhdCI6MCwidmlzaWJpbGl0eSI6ZmFsc2UsImF2YWlsYWJpbGl0eSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19LCJhbmFseXRpY3NfZW50aXRsZW1lbnQiOnsiYXZhaWxhYmlsaXR5IjpmYWxzZSwibW9kZWxzIjpbInNtYWxsIiwibWVkaXVtIiwibGFyZ2UiXSwicmVnaW9uX3Jlc3RyaWN0aW9uIjp0cnVlfSwiYXV0b21hdGlvbl9lbnRpdGxlbWVudCI6eyJmb3J0aWZvcm1hdGlvbiI6eyJhdmFpbGFiaWxpdHkiOmZhbHNlLCJ2aXNpYmlsaXR5IjpmYWxzZX19fSwib3JpZ2luYWxfbGljZW5zZSI6W3sic2VyaWFsTnVtYmVyIjoiRkNURU1TODgyMzAwNTU4OSIsInN0YXJ0RGF0ZSI6IjIwMjMtMDctMTdUMDA6MDA6MDAiLCJlbmREYXRlIjoiMjAyNC0wOS0yMVQwMDowMDowMCIsIm51bWJlck9mU2l0ZXMiOjQsIm51bWJlck9mRW5kUG9pbnRzIjowLCJudW1iZXJPZlJlbW90ZVVzZXJzIjoxMDAsInRvdGFsQmFuZHdpZHRoIjowLCJudW1iZXJPZlRoaW5FZGdlRGV2aWNlcyI6W3siY291bnQiOjIsInNuTWFzayI6IkZYMjAwRiJ9XSwicHJvZ3JhbV9zbiI6IkZDVEVNUzg4MjMwMDU1ODkifV19LCJwb3J0YWxfdXJsIjpudWxsLCJsb2dfdXJsIjpudWxsLCJsb2dfbG9jYXRpb24iOm51bGwsImxvY2F0aW9uIjpudWxsLCJfY3JlYXRlZCI6IjIwMjEtMDctMDdUMDg6MTQ6MDQuMDcxMzU0KzAwOjAwIiwiX3VwZGF0ZWQiOiIyMDIzLTEyLTExVDA1OjE0OjM2LjA2ODQ0OCswMDowMCIsImZlZWRiYWNrX2RheXMiOi0xLCJpc19uZXciOmZhbHNlLCJhdmFpbGFibGVfcG9wcyI6bnVsbCwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyJ9LCJyb2xlIjpbIlN1cGVyIEFkbWluIl0sInNpdGVzIjpbXSwibGljZW5zZV9tb2RlIjoiZXhwcmVzcyIsInNlZW5fbmV3X3JlbF9wciI6dHJ1ZSwib3JnX2RhdGEiOnsicGVybWlzc2lvbl9zY29wZSI6IkFjY291bnQiLCJhZ2dyZWdhdGVfYWNjZXNzIjpmYWxzZSwib3JnX2lkIjpudWxsLCJvdV9pZCI6bnVsbH0sIm1ldGFkYXRhIjp7ImltcGVyc29uYXRpb24iOnsiYWRtaW5fZW1haWwiOiJzdWJyYW1hbmlhbnZAZm9ydGluZXQuY29tIn0sImlwIjoiMTguMTY3LjE5MC4yNDAifSwiZW52IjoicHJvZCIsInRva2VuX3R5cGUiOiJwb3J0YWwifSwic2NvcGUiOlsibW9uaXRvci1hcGk6L21vbml0b3ItYXBpLz8oLiopLz8iXSwidHlwZSI6ImFwaSIsImV4cGlyZXMiOm51bGwsImlhdCI6MTcwMjI3MTg0NSwiZXhwIjoxNzI2ODQ4MDAwfQ.Kz_QagPaq2LuURfDJa80_xQdywo4P_rBfSKrgW0Fmjg",
+								"type": "string"
 							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA Cost per Hub",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n  \"{{pop1_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop2_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop3_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  },\n  \"{{pop4_id}}\": {\n    \"{{h1_id}}\": 50,\n    \"{{h2_id}}\": 50,\n    \"{{h3_id}}\": 50,\n    \"{{h4_id}}\": 50\n  } \n}"
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/region_cost",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"region_cost"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
 						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "SPA_Monitor",
-			"item": [
-				{
-					"name": "SPA Network Status",
+					},
 					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
 						{
 							"listen": "test",
 							"script": {
+								"type": "text/javascript",
 								"exec": [
 									""
-								],
-								"type": "text/javascript"
+								]
 							}
 						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"network-configuration"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SCs Status",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Status - H1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h1_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h1_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Status - H2",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h2_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h2_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Status - H3",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h3_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h3_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Status - H4",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"protocolProfileBehavior": {
-						"disabledSystemHeaders": {},
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h4_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h4_id}}"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
+					]
 				}
 			]
 		},
 		{
-			"name": "SPA_Delete",
+			"name": "Monitoring",
 			"item": [
 				{
-					"name": "SPA SC Delete - H1",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let scid = pm.environment.get(\"h1_id\");",
-									"",
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request. Breakin git!\", err);",
-									"                    postman.setNextRequest(null); ",
-									"            } else if (jsonData.code == \"403\") {",
-									"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                    pm.expect(jsonData.code).to.equal(\"403\");",
-									"                });",
-									"            } else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"deleted\") {",
-									"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h1_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h1_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Delete - H2",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let scid = pm.environment.get(\"h2_id\");",
-									"",
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request. Breakin git!\", err);",
-									"                    postman.setNextRequest(null); ",
-									"            } else if (jsonData.code == \"403\") {",
-									"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                    pm.expect(jsonData.code).to.equal(\"403\");",
-									"                });",
-									"            } else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"deleted\") {",
-									"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h2_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h2_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Delete - H3",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let scid = pm.environment.get(\"h3_id\");",
-									"",
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request. Breakin git!\", err);",
-									"                    postman.setNextRequest(null); ",
-									"            } else if (jsonData.code == \"403\") {",
-									"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                    pm.expect(jsonData.code).to.equal(\"403\");",
-									"                });",
-									"            } else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"deleted\") {",
-									"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h3_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h3_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA SC Delete - H4",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"let scid = pm.environment.get(\"h4_id\");",
-									"",
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/\" + scid,",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request. Breakin git!\", err);",
-									"                    postman.setNextRequest(null); ",
-									"            } else if (jsonData.code == \"403\") {",
-									"                pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                    pm.expect(jsonData.code).to.equal(\"403\");",
-									"                });",
-									"            } else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"deleted\") {",
-									"                    pm.test(\"Config deleted! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"deleted\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/service-connections/{{h4_id}}",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"service-connections",
-								"{{h4_id}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "SPA Network Delete",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"waitOnTask(100);",
-									"",
-									"function waitOnTask(retries) {",
-									"    if (!retries) {",
-									"        pm.test(\"Task completed\", function() {",
-									"            pm.expect(0).to.equal(1, \"Timeout while waiting for task completion\");     ",
-									"        });",
-									"        postman.setNextRequest(null);",
-									"    }",
-									"    else {",
-									"        pm.sendRequest({",
-									"            url: \"https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration\",",
-									"            method: 'GET',",
-									"            header: \"Content-Type:application/json\",",
-									"            auth: {",
-									"            \ttype: \"bearer\",",
-									"            \tbearer: [",
-									"            \t{",
-									"            \t\tkey: \"token\",",
-									"            \t\tvalue: pm.environment.get(\"token\"),",
-									"            \t\ttype: \"string\"",
-									"            \t}]",
-									"            }",
-									"        }, function(err, response) {",
-									"            var jsonData = response.json();",
-									"            if (err ){",
-									"                    console.error(\"There was an error in the request:\", err);",
-									"                    console.log(\"Moving to the next task.\");",
-									"                    postman.setNextRequest(null); ",
-									"            }",
-									"            else if (jsonData.data.config_state == \"failed\"){",
-									"                    pm.test(\"Config failed\",function() {",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"failed\");",
-									"                    });",
-									"                    postman.setNextRequest(null);",
-									"                } else if (jsonData.data.config_state == \"success\") {",
-									"                    pm.test(\"Config succeeded! Moving to the next task.\", function(){",
-									"                        pm.expect(jsonData.data.config_state).to.equal(\"success\");",
-									"                    });",
-									"                } else {",
-									"                console.log(\"Task not yet completed. Checking again.\");",
-									"                setTimeout(function() {",
-									"                    waitOnTask(--retries);",
-									"                }, 10000);",
-									"            }",
-									"        });",
-									"    }",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "https://portal.prod.fortisase.com/resource-api/v1/private-access/network-configuration",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"prod",
-								"fortisase",
-								"com"
-							],
-							"path": [
-								"resource-api",
-								"v1",
-								"private-access",
-								"network-configuration"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"event": [
-				{
-					"listen": "prerequest",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				},
-				{
-					"listen": "test",
-					"script": {
-						"type": "text/javascript",
-						"exec": [
-							""
-						]
-					}
-				}
-			]
-		},
-		{
-			"name": "Dashboard",
-			"item": [
-				{
-					"name": "Traffic_History",
+					"name": "get traffic history",
 					"event": [
 						{
 							"listen": "test",
@@ -1412,11 +1701,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://portal.demo.fortisase.com/monitor-api/v1/traffic-history?type=Outbound&time_peroid=hour",
+							"raw": "https://portal.prod.fortisase.com/monitor-api/v1/traffic-history?type=Outbound&time_peroid=hour",
 							"protocol": "https",
 							"host": [
 								"portal",
-								"demo",
+								"prod",
 								"fortisase",
 								"com"
 							],
@@ -1433,6 +1722,11 @@
 								{
 									"key": "time_peroid",
 									"value": "hour"
+								},
+								{
+									"key": "individualized",
+									"value": "true",
+									"disabled": true
 								}
 							]
 						}
@@ -1440,16 +1734,16 @@
 					"response": []
 				},
 				{
-					"name": "Connected_Users_VPN",
+					"name": "get connected users - vpn",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://portal.demo.fortisase.com/monitor-api/v1/user/vpn/sessions",
+							"raw": "https://portal.prod.fortisase.com/monitor-api/v1/user/vpn/sessions",
 							"protocol": "https",
 							"host": [
 								"portal",
-								"demo",
+								"prod",
 								"fortisase",
 								"com"
 							],
@@ -1459,51 +1753,43 @@
 								"user",
 								"vpn",
 								"sessions"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Connected_Users_SWG",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://portal.demo.fortisase.com/monitor-api/v1/user/swg/sessions",
-							"protocol": "https",
-							"host": [
-								"portal",
-								"demo",
-								"fortisase",
-								"com"
 							],
-							"path": [
-								"monitor-api",
-								"v1",
-								"user",
-								"swg",
-								"sessions"
+							"query": [
+								{
+									"key": "type",
+									"value": "Outbound",
+									"disabled": true
+								},
+								{
+									"key": "time_peroid",
+									"value": "hour",
+									"disabled": true
+								}
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Deauth_Connected_User_VPN",
+					"name": "connected users deauth - vpn",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"usernames\": [\"your_user@your_domain.com\"]\n}"
+							"raw": "{\n    \"usernames\": [\"test@test.com\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "https://portal.demo.fortisase.com/monitor-api/v1/user/vpn/sessions/deauth",
+							"raw": "https://portal.prod.fortisase.com/monitor-api/v1/user/vpn/sessions/deauth",
 							"protocol": "https",
 							"host": [
 								"portal",
-								"demo",
+								"prod",
 								"fortisase",
 								"com"
 							],
@@ -1520,20 +1806,25 @@
 					"response": []
 				},
 				{
-					"name": "Deauth_Connected_User_SWG",
+					"name": "connected users deauth - swg",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"usernames\": [\"your_user@your_domain.com\"]\n}"
+							"raw": "{\n    \"usernames\": [\"test@test.com\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
-							"raw": "https://portal.demo.fortisase.com/monitor-api/v1/user/swg/sessions/deauth",
+							"raw": "https://portal.prod.fortisase.com/monitor-api/v1/user/swg/sessions/deauth",
 							"protocol": "https",
 							"host": [
 								"portal",
-								"demo",
+								"prod",
 								"fortisase",
 								"com"
 							],
@@ -1544,6 +1835,43 @@
 								"swg",
 								"sessions",
 								"deauth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get connected users - swg",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://portal.prod.fortisase.com/monitor-api/v1/user/swg/sessions",
+							"protocol": "https",
+							"host": [
+								"portal",
+								"prod",
+								"fortisase",
+								"com"
+							],
+							"path": [
+								"monitor-api",
+								"v1",
+								"user",
+								"swg",
+								"sessions"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "Outbound",
+									"disabled": true
+								},
+								{
+									"key": "time_peroid",
+									"value": "hour",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -1557,7 +1885,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "PUT YOUR TOKEN HERE!",
+				"value": "",
 				"type": "string"
 			}
 		]
@@ -1610,6 +1938,56 @@
 		{
 			"key": "h1_id",
 			"value": ""
+		},
+		{
+			"key": "bgp_design",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "bgp_router_ids_subnet",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "as_number",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "sdwan_health_check_vm",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "spa_auth",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "h1_bgp_peer_ip",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "ipsec_psk",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "h11_ip",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "h11_overlay_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "h1_route_tag",
+			"value": "",
+			"type": "string"
 		}
 	]
 }

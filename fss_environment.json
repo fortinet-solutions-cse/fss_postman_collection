@@ -1,6 +1,6 @@
 {
-	"id": "fd712a45-025a-4eb7-a819-5b858d5eb8c0",
-	"name": "FSS_Environment_SPA",
+	"id": "aeef8664-c827-4e1e-b4aa-bd8489513af0",
+	"name": "fss_environment",
 	"values": [
 		{
 			"key": "token",
@@ -40,12 +40,18 @@
 		},
 		{
 			"key": "ipsec_psk",
-			"value": "PUT PSK HERE",
+			"value": "",
 			"type": "default",
 			"enabled": true
 		},
 		{
-			"key": "h1_ip",
+			"key": "h11_ip",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h12_ip",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -57,7 +63,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h1_overlay_id",
+			"key": "h11_overlay_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h12_overlay_id",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -69,7 +81,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h2_ip",
+			"key": "h21_ip",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h22_ip",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -81,7 +99,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h2_overlay_id",
+			"key": "h21_overlay_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h22_overlay_id2",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -93,7 +117,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h3_ip",
+			"key": "h31_ip",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h32_ip",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -105,7 +135,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h3_overlay_id",
+			"key": "h31_overlay_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h32_overlay_id",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -117,7 +153,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h4_ip",
+			"key": "h41_ip",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h42_ip",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -129,7 +171,13 @@
 			"enabled": true
 		},
 		{
-			"key": "h4_overlay_id",
+			"key": "h41_overlay_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "h42_overlay_id",
 			"value": "",
 			"type": "default",
 			"enabled": true
@@ -139,9 +187,57 @@
 			"value": "",
 			"type": "default",
 			"enabled": true
+		},
+		{
+			"key": "pop1_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "pop2_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "pop3_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "pop4_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "h1_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "h2_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "h3_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
+		},
+		{
+			"key": "h4_id",
+			"value": "",
+			"type": "any",
+			"enabled": true
 		}
 	],
 	"_postman_variable_scope": "environment",
-	"_postman_exported_at": "2023-12-15T12:52:28.269Z",
-	"_postman_exported_using": "Postman/10.20.10"
+	"_postman_exported_at": "2024-04-26T15:26:32.711Z",
+	"_postman_exported_using": "Postman/10.24.15"
 }
