@@ -12,9 +12,13 @@ As the REST API coverage expands in FortiSASE, so will our Postman collection.
 
 ![pic 1](images/pm_authorization.png)
 
+
+
 - make sure you populate the environment file with necessary variables (```including the bearer token too!```): 
 
+
 ![pic 2](images/pm_environment_vars.png)
+
 
 
 # How to Run the Collection
